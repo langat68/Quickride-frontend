@@ -1,0 +1,131 @@
+.how-it-works {
+  padding: 6rem 2rem;
+  background: #f9f9fb;
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    position: relative;
+  }
+
+  .step-card {
+    background: linear-gradient(135deg, #ffffff, #f0f4ff);
+    padding: 2rem;
+    text-align: center;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .step-number {
+      position: absolute;
+      top: -1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: white;
+      font-weight: bold;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    .step-icon {
+      background: rgba(34, 197, 94, 0.1);
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+
+      svg {
+        color: #22c55e;
+      }
+
+      &:hover {
+        background: rgba(34, 197, 94, 0.2);
+      }
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: #111827;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #6b7280;
+    }
+  }
+
+  .step-lines {
+    display: none;
+
+    @media (min-width: 1024px) {
+      display: block;
+      position: relative;
+      margin-top: -6rem;
+      height: 2rem;
+
+      .line {
+        position: absolute;
+        top: 1rem;
+        height: 2px;
+        background: linear-gradient(to right, #4ade80, #a7f3d0);
+      }
+
+      .line-1 {
+        left: 25%;
+        width: 25%;
+      }
+
+      .line-2 {
+        left: 50%;
+        width: 25%;
+      }
+
+      .line-3 {
+        left: 75%;
+        width: 25%;
+      }
+    }
+  }
+}
