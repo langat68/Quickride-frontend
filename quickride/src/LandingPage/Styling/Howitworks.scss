@@ -1,131 +1,335 @@
+// How It Works Section Styles - Mobile First
 .how-it-works {
-  padding: 6rem 2rem;
-  background: #f9f9fb;
-
+  padding: 60px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+  
   .container {
-    max-width: 1280px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 15px;
+    position: relative;
   }
 
   .section-header {
     text-align: center;
-    margin-bottom: 4rem;
-
+    margin-bottom: 50px;
+    
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       font-weight: 700;
-      color: #1f2937;
-      margin-bottom: 1rem;
+      color: #1e293b;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
     }
-
+    
     p {
-      font-size: 1.125rem;
-      color: #6b7280;
+      font-size: 0.875rem;
+      color: #64748b;
       max-width: 600px;
       margin: 0 auto;
+      line-height: 1.6;
     }
   }
 
   .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     position: relative;
+    z-index: 2;
   }
 
   .step-card {
-    background: linear-gradient(135deg, #ffffff, #f0f4ff);
-    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    padding: 20px 15px;
     text-align: center;
-    border-radius: 16px;
     position: relative;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    
     &:hover {
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .step-number {
-      position: absolute;
-      top: -1rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #4ade80, #22c55e);
-      color: white;
-      font-weight: bold;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.875rem;
-    }
-
-    .step-icon {
-      background: rgba(34, 197, 94, 0.1);
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 1rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s ease;
-
-      svg {
-        color: #22c55e;
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                  0 0 0 1px rgba(16, 185, 129, 0.2);
+      
+      .step-icon {
+        transform: scale(1.1);
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+        
+        svg {
+          color: white;
+        }
       }
-
-      &:hover {
-        background: rgba(34, 197, 94, 0.2);
+      
+      .step-number {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
       }
     }
+  }
 
-    h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #111827;
-    }
+  .step-number {
+    position: absolute;
+    top: -12px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border: 2px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #475569;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
 
-    p {
-      font-size: 1rem;
-      color: #6b7280;
+  .step-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    svg {
+      color: #10b981;
+      transition: all 0.3s ease;
+      width: 28px;
+      height: 28px;
     }
+  }
+
+  .step-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .step-card p {
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 0.875rem;
+    margin: 0;
   }
 
   .step-lines {
     display: none;
+  }
 
-    @media (min-width: 1024px) {
-      display: block;
-      position: relative;
-      margin-top: -6rem;
-      height: 2rem;
-
-      .line {
-        position: absolute;
-        top: 1rem;
-        height: 2px;
-        background: linear-gradient(to right, #4ade80, #a7f3d0);
+  // Tablet styles (min-width: 480px)
+  @media (min-width: 480px) {
+    .container {
+      padding: 0 20px;
+    }
+    
+    .section-header {
+      h2 {
+        font-size: 2.5rem;
       }
-
-      .line-1 {
-        left: 25%;
-        width: 25%;
-      }
-
-      .line-2 {
-        left: 50%;
-        width: 25%;
-      }
-
-      .line-3 {
-        left: 75%;
-        width: 25%;
+      
+      p {
+        font-size: 1rem;
       }
     }
+    
+    .steps {
+      gap: 25px;
+    }
+    
+    .step-card {
+      padding: 25px 20px;
+      
+      h3 {
+        font-size: 1.5rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+    }
+    
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 30px;
+      
+      svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      font-size: 0.875rem;
+      top: -15px;
+      right: 20px;
+    }
+  }
+
+  // Small tablet styles (min-width: 768px)
+  @media (min-width: 768px) {
+    padding: 80px 0;
+    
+    .section-header {
+      margin-bottom: 60px;
+      
+      h2 {
+        font-size: 2.5rem;
+      }
+      
+      p {
+        font-size: 1.125rem;
+      }
+    }
+    
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+    
+    .step-card {
+      padding: 30px 25px;
+    }
+  }
+
+  // Desktop styles (min-width: 1024px)
+  @media (min-width: 1024px) {
+    padding: 120px 0;
+    
+    .section-header {
+      margin-bottom: 80px;
+      
+      h2 {
+        font-size: 3rem;
+      }
+      
+      p {
+        font-size: 1.25rem;
+      }
+    }
+    
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+    
+    .step-card {
+      padding: 40px 30px;
+    }
+    
+    .step-lines {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 1;
+      display: block;
+    }
+  }
+
+  // Connection lines (desktop only)
+  .line {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(16, 185, 129, 0.2) 0%, 
+      rgba(16, 185, 129, 0.6) 50%, 
+      rgba(16, 185, 129, 0.2) 100%
+    );
+    top: 0;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .line-1 {
+      left: 22%;
+      width: 22.5%;
+      animation: progressLine 3s ease-in-out infinite;
+      animation-delay: 0.5s;
+    }
+
+    .line-2 {
+      left: 47.5%;
+      width: 22.5%;
+      animation: progressLine 3s ease-in-out infinite;
+      animation-delay: 1s;
+    }
+
+    .line-3 {
+      left: 72.5%;
+      width: 22.5%;
+      animation: progressLine 3s ease-in-out infinite;
+      animation-delay: 1.5s;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.1);
+      box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+  }
+
+  @keyframes progressLine {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scaleX(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleX(1.05);
+    }
+  }
+}
+
+// Additional utility classes
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

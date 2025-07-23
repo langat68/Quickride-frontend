@@ -1,7 +1,14 @@
-import { Car, Menu, Phone } from "lucide-react";
+import { Car, Menu } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "../Styling/Navbar.scss";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate("/login");
+  };
+
   return (
     <header className="header">
       <div className="header__container">
@@ -16,19 +23,16 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="header__nav">
-            <a href="#cars">Cars</a>
+            <a href="#fleet">Our Fleet</a>
             <a href="#how-it-works">How it Works</a>
-            <a href="#about">About</a>
             <a href="#contact">Contact</a>
           </nav>
 
-          {/* CTA Buttons */}
+          {/* CTA Button */}
           <div className="header__cta">
-            <button className="btn btn-outline">
-              <Phone className="icon-sm" />
-              Call Us
+            <button className="btn btn-primary" onClick={handleGetStarted}>
+              Get Started
             </button>
-            <button className="btn btn-primary">Book Now</button>
           </div>
 
           {/* Mobile Menu */}
