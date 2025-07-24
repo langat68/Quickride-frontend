@@ -1,6 +1,8 @@
 // Fleet.tsx
 import { useEffect, useState } from 'react';
 import BookingModal from './BookingModal';
+import type { BookingData } from './BookingModal';
+import PaymentModal from './PaymentModal';
 import '../Styling/Fleet.scss';
 
 interface Car {
@@ -20,7 +22,9 @@ const Fleet = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -43,16 +47,33 @@ const Fleet = () => {
 
   const handleBook = (car: Car) => {
     setSelectedCar(car);
-    setIsModalOpen(true);
+    setIsBookingModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseBookingModal = () => {
+    setIsBookingModalOpen(false);
     setSelectedCar(null);
   };
 
-  const handleBookingSuccess = () => {
-    setSuccessMessage('Booking created successfully! You will receive a confirmation email shortly.');
+  const handleProceedToPayment = (data: BookingData) => {
+    setBookingData(data);
+    setIsBookingModalOpen(false);
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+    setBookingData(null);
+  };
+
+  const handleBackToBooking = () => {
+    setIsPaymentModalOpen(false);
+    setIsBookingModalOpen(true);
+  };
+
+  const handlePaymentSuccess = () => {
+    setSuccessMessage('Payment successful! Your car has been booked. You will receive a confirmation email shortly.');
+    setBookingData(null);
     
     // Auto-hide success message after 5 seconds
     setTimeout(() => {
@@ -109,9 +130,18 @@ const Fleet = () => {
       {/* Booking Modal */}
       <BookingModal
         car={selectedCar}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onBookingSuccess={handleBookingSuccess}
+        isOpen={isBookingModalOpen}
+        onClose={handleCloseBookingModal}
+        onProceedToPayment={handleProceedToPayment}
+      />
+
+      {/* Payment Modal */}
+      <PaymentModal
+        bookingData={bookingData}
+        isOpen={isPaymentModalOpen}
+        onClose={handleClosePaymentModal}
+        onPaymentSuccess={handlePaymentSuccess}
+        onBackToBooking={handleBackToBooking}
       />
     </div>
   );
