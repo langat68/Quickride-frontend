@@ -1,3 +1,4 @@
+// Fleet.tsx
 import { useEffect, useState } from 'react';
 import '../Styling/Fleet.scss';
 
@@ -36,6 +37,12 @@ const Fleet = () => {
     fetchCars();
   }, []);
 
+  const handleBook = (carId: number) => {
+    console.log(`Booking car ID: ${carId}`);
+    // You could also open a modal or navigate to booking page
+    // Example: navigate(`/book/${carId}`);
+  };
+
   return (
     <div className="fleet-container">
       <h2>Available Fleet</h2>
@@ -59,6 +66,10 @@ const Fleet = () => {
               <p>Seats: {car.seats}</p>
               <p>Location: {car.location}</p>
               <p>Price per Day: <strong>KES {car.pricePerDay}</strong></p>
+
+              <button className="book-button" onClick={() => handleBook(car.id)}>
+                Book
+              </button>
             </div>
           </div>
         ))}
