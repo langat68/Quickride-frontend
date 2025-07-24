@@ -48,7 +48,7 @@ const Register = () => {
       if (loginRes.ok) {
         dispatch(loginSuccess(loginData));
         setMessage('🎉 Registration successful! Logging you in...');
-        navigate('/dashboard');
+        navigate('/');
       } else {
         dispatch(loginFailure());
         setMessage('🎉 Registration successful! Please log in manually.');

@@ -42,7 +42,7 @@ const Login = () => {
       setMessage('✅ Login successful!');
 
       // Navigate to dashboard
-      navigate('/dashboard');
+      navigate('/');
     } catch (err: any) {
       dispatch(loginFailure());
       setMessage(err.message || 'Something went wrong');
