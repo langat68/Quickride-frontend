@@ -1,5 +1,6 @@
 // Fleet.tsx
 import { useEffect, useState } from 'react';
+import BookingModal from './BookingModal';
 import '../Styling/Fleet.scss';
 
 interface Car {
@@ -18,6 +19,9 @@ const Fleet = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -37,10 +41,27 @@ const Fleet = () => {
     fetchCars();
   }, []);
 
-  const handleBook = (carId: number) => {
-    console.log(`Booking car ID: ${carId}`);
-    // You could also open a modal or navigate to booking page
-    // Example: navigate(`/book/${carId}`);
+  const handleBook = (car: Car) => {
+    setSelectedCar(car);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCar(null);
+  };
+
+  const handleBookingSuccess = () => {
+    setSuccessMessage('Booking created successfully! You will receive a confirmation email shortly.');
+    
+    // Auto-hide success message after 5 seconds
+    setTimeout(() => {
+      setSuccessMessage(null);
+    }, 5000);
+  };
+
+  const dismissSuccessMessage = () => {
+    setSuccessMessage(null);
   };
 
   return (
@@ -49,6 +70,16 @@ const Fleet = () => {
 
       {loading && <p>Loading cars...</p>}
       {error && <p className="error">{error}</p>}
+
+      {/* Success Message */}
+      {successMessage && (
+        <div className="success-message" onClick={dismissSuccessMessage}>
+          {successMessage}
+          <button className="dismiss-button" onClick={dismissSuccessMessage}>
+            &times;
+          </button>
+        </div>
+      )}
 
       <div className="car-list">
         {cars.map((car) => (
@@ -67,13 +98,21 @@ const Fleet = () => {
               <p>Location: {car.location}</p>
               <p>Price per Day: <strong>KES {car.pricePerDay}</strong></p>
 
-              <button className="book-button" onClick={() => handleBook(car.id)}>
-                Book
+              <button className="book-button" onClick={() => handleBook(car)}>
+                Book Now
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Booking Modal */}
+      <BookingModal
+        car={selectedCar}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onBookingSuccess={handleBookingSuccess}
+      />
     </div>
   );
 };
