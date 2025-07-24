@@ -1,12 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { loginStart, loginSuccess, loginFailure } from '../../redux';
 import '../Styling/auth-form.scss';
 import { Eye, EyeOff } from 'lucide-react';
 
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,24 +20,44 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(loginStart());
     setMessage(null);
 
     try {
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch('http://localhost:3000/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
+
       if (!res.ok) throw new Error(data.error || 'Signup failed');
-      setMessage('🎉 Registration successful! You can now log in.');
+
+      // Auto-login after successful registration
+      const loginRes = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email: form.email, password: form.password }),
+      });
+
+      const loginData = await loginRes.json();
+
+      if (loginRes.ok) {
+        dispatch(loginSuccess(loginData));
+        setMessage('🎉 Registration successful! Logging you in...');
+        navigate('/dashboard');
+      } else {
+        dispatch(loginFailure());
+        setMessage('🎉 Registration successful! Please log in manually.');
+      }
+
       setForm({ name: '', email: '', password: '' });
     } catch (err: any) {
-      setMessage(err.message);
-    } finally {
-      setLoading(false);
+      dispatch(loginFailure());
+      setMessage(err.message || 'Something went wrong');
     }
   };
 
@@ -79,7 +105,8 @@ const Register = () => {
           {loading ? 'Registering...' : 'Register'}
         </button>
       </form>
-      {message && <p>{message}</p>}
+
+      {message && <p className="register-message">{message}</p>}
     </div>
   );
 };

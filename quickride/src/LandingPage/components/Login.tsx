@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { loginStart, loginSuccess, loginFailure } from '../../redux';
 import '../Styling/auth-form.scss';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
+  
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,26 +18,34 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    dispatch(loginStart());
     setMessage(null);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
         body: JSON.stringify(form),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Login failed');
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Login failed');
+      }
+
+      // Dispatch success with the full response data
+      dispatch(loginSuccess(data));
       setMessage('✅ Login successful!');
 
-      localStorage.setItem('token', data.token);
-      console.log('Logged in user:', data.user);
+      // Navigate to dashboard
+      navigate('/dashboard');
     } catch (err: any) {
-      setMessage(err.message);
-    } finally {
-      setLoading(false);
+      dispatch(loginFailure());
+      setMessage(err.message || 'Something went wrong');
     }
   };
 
@@ -65,7 +78,7 @@ const Login = () => {
       {message && <p className="login-message">{message}</p>}
 
       <p className="register-link">
-        Don’t have an account?{' '}
+        Don't have an account?{' '}
         <Link to="/register" className="link-no-underline">
           Create one
         </Link>
