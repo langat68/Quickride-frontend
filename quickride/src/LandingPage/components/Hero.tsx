@@ -34,12 +34,13 @@ const Hero = () => {
       {/* Content */}
       <div className="hero__content">
         <div className="hero__text">
-          <h1>
-            Premium Cars for <span>Every Journey</span>
-          </h1>
-          <p>
-            Experience the freedom of the road with our premium fleet. Fast booking, reliable service, competitive prices.
-          </p>
+         <h1>
+  Welcome to <span>Quickride</span>
+</h1>
+<p>
+  Your journey begins here. Whether you're heading out for business, a getaway, or daily travel — Quickride gets you there in comfort, style, and ease.
+</p>
+
 
           {/* Search Card */}
           <div className="search-card">

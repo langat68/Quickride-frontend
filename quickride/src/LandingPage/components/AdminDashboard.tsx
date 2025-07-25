@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Users, Car, CreditCard, Calendar, Eye, Edit, Trash2 } from 'lucide-react';
+import { Users, Car, CreditCard, Calendar, Eye, Edit, Trash2, Plus } from 'lucide-react';
+import CarModal from './Carmodal'; // Adjust path as needed
 //import '../Styling/AdminDashboard.scss';
 
 interface User {
@@ -56,6 +57,8 @@ interface Booking {
   payments: Payment[];
 }
 
+type ModalMode = 'create' | 'edit' | 'view' | 'delete';
+
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('users');
   const [users, setUsers] = useState<User[]>([]);
@@ -64,6 +67,11 @@ const AdminDashboard = () => {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<ModalMode>('create');
+  const [selectedCar, setSelectedCar] = useState<Car | undefined>(undefined);
 
   useEffect(() => {
     fetchData();
@@ -98,6 +106,105 @@ const AdminDashboard = () => {
       setError(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Car CRUD operations
+  const handleCreateCar = () => {
+    setSelectedCar(undefined);
+    setModalMode('create');
+    setIsModalOpen(true);
+  };
+
+  const handleViewCar = (car: Car) => {
+    setSelectedCar(car);
+    setModalMode('view');
+    setIsModalOpen(true);
+  };
+
+  const handleEditCar = (car: Car) => {
+    setSelectedCar(car);
+    setModalMode('edit');
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteCar = (car: Car) => {
+    setSelectedCar(car);
+    setModalMode('delete');
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedCar(undefined);
+  };
+
+  const handleCarSave = async (carData: Partial<Car>) => {
+    try {
+      if (modalMode === 'create') {
+        const response = await fetch('http://localhost:3000/cars', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            ...carData,
+            pricePerDay: Number(carData.pricePerDay),
+            seats: Number(carData.seats)
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create car');
+        }
+
+        const newCar = await response.json();
+        setCars(prev => [...prev, newCar.data || newCar]);
+      } else if (modalMode === 'edit' && selectedCar) {
+        const response = await fetch(`http://localhost:3000/cars/${selectedCar.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            ...carData,
+            pricePerDay: Number(carData.pricePerDay),
+            seats: Number(carData.seats)
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update car');
+        }
+
+        const updatedCar = await response.json();
+        setCars(prev => prev.map(car => 
+          car.id === selectedCar.id ? (updatedCar.data || updatedCar) : car
+        ));
+      }
+    } catch (error) {
+      console.error('Error saving car:', error);
+      throw error;
+    }
+  };
+
+  const handleCarDelete = async (carId: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/cars/${carId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete car');
+      }
+
+      setCars(prev => prev.filter(car => car.id !== carId));
+    } catch (error) {
+      console.error('Error deleting car:', error);
+      throw error;
     }
   };
 
@@ -356,7 +463,13 @@ const AdminDashboard = () => {
 
         {activeTab === 'cars' && (
           <div className="table-section">
-            <h2>Cars Management</h2>
+            <div className="section-header">
+              <h2>Cars Management</h2>
+              <button className="add-car-btn" onClick={handleCreateCar}>
+                <Plus size={20} />
+                Add New Car
+              </button>
+            </div>
             <div className="table-wrapper">
               <table className="data-table">
                 <thead>
@@ -397,13 +510,25 @@ const AdminDashboard = () => {
                       </td>
                       <td>
                         <div className="action-buttons">
-                          <button className="action-btn view-btn">
+                          <button 
+                            className="action-btn view-btn"
+                            onClick={() => handleViewCar(car)}
+                            title="View Details"
+                          >
                             <Eye size={16} />
                           </button>
-                          <button className="action-btn edit-btn">
+                          <button 
+                            className="action-btn edit-btn"
+                            onClick={() => handleEditCar(car)}
+                            title="Edit Car"
+                          >
                             <Edit size={16} />
                           </button>
-                          <button className="action-btn delete-btn">
+                          <button 
+                            className="action-btn delete-btn"
+                            onClick={() => handleDeleteCar(car)}
+                            title="Delete Car"
+                          >
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -416,6 +541,16 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
+
+      {/* Car Modal */}
+      <CarModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        mode={modalMode}
+        car={selectedCar}
+        onSave={handleCarSave}
+        onDelete={handleCarDelete}
+      />
     </div>
   );
 };

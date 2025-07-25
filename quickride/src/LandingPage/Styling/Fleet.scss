@@ -1,9 +1,12 @@
-// src/pages/Fleet.scss
+// Fleet.scss - Clean and Simple Design
+// Based on your preferred styling with green button addition
 
 $fleet-bg: #f5faff;
 $card-bg: #ffffff;
 $card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 $accent: #1c5033; // Matches your $grass-green
+$primary-dark: #243D25;
+$primary-light: #3A5F3C;
 
 .fleet-container {
   padding: 2rem 4rem;
@@ -22,6 +25,50 @@ $accent: #1c5033; // Matches your $grass-green
     color: red;
     text-align: center;
     margin-top: 1rem;
+  }
+
+  // Success Message
+  .success-message {
+    background: #ECFDF5;
+    border: 2px solid #059669;
+    color: $primary-dark;
+    padding: 20px 24px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .dismiss-button {
+      background: transparent;
+      border: none;
+      color: #059669;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+
+      &:hover {
+        color: $primary-dark;
+        transform: scale(1.2);
+      }
+    }
   }
 
   .car-list {
@@ -48,25 +95,50 @@ $accent: #1c5033; // Matches your $grass-green
       object-fit: cover;
       border-bottom: 1px solid #eee;
     }
+.car-details {
+  padding: 1.2rem;
 
-    .car-details {
-      padding: 1.2rem;
+  h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    color: #222;
+    font-weight: 600; // optional, for better heading emphasis
+  }
 
-      h3 {
-        margin-bottom: 0.5rem;
-        font-size: 1.4rem;
-        color: #222;
-      }
+  p {
+    margin: 0.3rem 0;
+    color: #0c0c0c;
+    font-size: 1rem;
+    font-weight: 400; // normal body weight
 
-      p {
-        margin: 0.3rem 0;
-        color: #555;
-        font-size: 1rem;
-      }
+    &:last-of-type {
+      font-weight: 700; // bold for emphasis
+      color: $accent;
+    }
+  }
 
-      p:last-child {
-        font-weight: bold;
-        color: $accent;
+      // Green Button
+      .book-button {
+        width: 100%;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, $primary-dark 0%, $primary-light 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 1rem;
+
+        &:hover {
+          background: linear-gradient(135deg, $primary-light 0%, #5D8B5F 100%);
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(36, 61, 37, 0.3);
+        }
       }
     }
   }
