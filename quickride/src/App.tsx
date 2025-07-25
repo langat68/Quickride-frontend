@@ -9,7 +9,9 @@ import Testimonials from "./LandingPage/components/Testimonials";
 import Footer from "./LandingPage/components/Footer";
 
 import Login from "./LandingPage/components/Login";
-import Register from "./LandingPage/components/Register"; // 👈 import Register
+import Register from "./LandingPage/components/Register";
+import Dashboard from "./LandingPage/components/UserDashboard"; // Added Dashboard 
+import AdminDashboard from "./LandingPage/components/AdminDashboard"
 
 function LandingPage() {
   return (
@@ -29,7 +31,9 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} /> {/* 👈 add this */}
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} /> {/* Added Dashboard route */}
+      <Route path="/admin-dashboard" element={<AdminDashboard />} />
       <Route path="*" element={<div>Page Not Found</div>} />
     </Routes>
   );

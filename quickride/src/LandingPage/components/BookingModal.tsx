@@ -40,13 +40,8 @@ const BookingModal = ({ car, isOpen, onClose, onProceedToPayment }: BookingModal
 
   // Available pickup locations
   const locations = [
-    'Nairobi CBD',
+    
     'JKIA Airport',
-    'Westlands',
-    'Karen',
-    'Kilimani',
-    'Kiambu',
-    'Thika',
     'Nakuru',
     'Mombasa',
     'Kisumu'

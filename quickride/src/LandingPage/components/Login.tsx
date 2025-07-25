@@ -8,7 +8,7 @@ const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [message, setMessage] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.auth);
 
@@ -37,12 +37,16 @@ const Login = () => {
         throw new Error(data?.error || 'Login failed');
       }
 
-      // Dispatch success with the full response data
       dispatch(loginSuccess(data));
       setMessage('✅ Login successful!');
 
-      // Navigate to dashboard
-      navigate('/');
+      // ✅ Redirect based on role
+      const role = data.user?.role;
+      if (role === 'admin') {
+        navigate('/admin-dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err: any) {
       dispatch(loginFailure());
       setMessage(err.message || 'Something went wrong');

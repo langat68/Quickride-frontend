@@ -1,5 +1,6 @@
-import { Car, Menu, LogOut } from "lucide-react";
+import { Car, Menu, LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux";
 import { logout } from "../../redux";
 import "../Styling/Navbar.scss";
@@ -7,6 +8,8 @@ import "../Styling/Navbar.scss";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   
   // Get auth state from Redux
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
@@ -18,6 +21,12 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
+    setIsDropdownOpen(false);
+  };
+
+  const handleDashboard = () => {
+    navigate("/dashboard");
+    setIsDropdownOpen(false);
   };
 
   // Extract initials from user name
@@ -28,6 +37,20 @@ const Navbar = () => {
       .join('')
       .slice(0, 2); // Take only first 2 initials
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="header">
@@ -51,18 +74,32 @@ const Navbar = () => {
           {/* CTA Button or User Avatar */}
           <div className="header__cta">
             {isAuthenticated ? (
-              <div className="user-avatar-container">
-                <div className="user-avatar">
+              <div className="user-avatar-container" ref={dropdownRef}>
+                <div 
+                  className="user-avatar"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onMouseEnter={() => setIsDropdownOpen(true)}
+                >
                   <span className="user-initials">
                     {user ? getInitials(user.name) : 'U'}
                   </span>
                 </div>
-                <div className="user-dropdown">
-                  <button className="logout-btn" onClick={handleLogout}>
-                    <LogOut size={16} />
-                    Logout
-                  </button>
-                </div>
+                
+                {isDropdownOpen && (
+                  <div 
+                    className="user-dropdown"
+                    onMouseLeave={() => setIsDropdownOpen(false)}
+                  >
+                    <button className="dropdown-item" onClick={handleDashboard}>
+                      <User size={16} />
+                      My Dashboard
+                    </button>
+                    <button className="dropdown-item logout-item" onClick={handleLogout}>
+                      <LogOut size={16} />
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button className="btn btn-primary" onClick={handleGetStarted}>
