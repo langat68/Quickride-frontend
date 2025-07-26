@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, MapPin, Car, CreditCard, Phone } from 'lucide-react';
+import { Calendar, Clock, MapPin, Car, CreditCard } from 'lucide-react';
 import { useAppSelector } from '../../redux';
 import '../Styling/Dashboard.scss';
 
@@ -55,7 +55,7 @@ interface PaymentsResponse {
 }
 
 const Dashboard = () => {
-  const { user, token } = useAppSelector((state) => state.auth);
+  const { user,  } = useAppSelector((state) => state.auth);
   const [bookings, setBookings] = useState<ApiBooking[]>([]);
   const [payments, setPayments] = useState<ApiPayment[]>([]);
   const [loading, setLoading] = useState(true);
