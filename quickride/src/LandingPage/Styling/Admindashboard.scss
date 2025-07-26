@@ -1,0 +1,552 @@
+// Color Variables
+$primary-color: #1c5033;
+$primary-light: lighten($primary-color, 10%);
+$primary-dark: darken($primary-color, 10%);
+$primary-extra-light: lighten($primary-color, 40%);
+
+// Neutral Colors
+$white: #ffffff;
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Status Colors
+$success: #10b981;
+$warning: #f59e0b;
+$error: #ef4444;
+$info: #3b82f6;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+
+// Border Radius
+$radius-sm: 0.375rem;
+$radius-md: 0.5rem;
+$radius-lg: 0.75rem;
+$radius-xl: 1rem;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+.admin-dashboard {
+  background-color: $gray-50;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  // Loading and Error States
+  .loading, .error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .loading {
+    color: $primary-color;
+  }
+
+  .error {
+    color: $error;
+    background-color: rgba($error, 0.1);
+    border: 1px solid rgba($error, 0.2);
+    border-radius: $radius-lg;
+    padding: $spacing-xl;
+    margin: $spacing-xl;
+  }
+
+  // Dashboard Header
+  .dashboard-header {
+    background: linear-gradient(135deg, $primary-color 0%, $primary-light 100%);
+    color: $white;
+    padding: $spacing-xl;
+    margin-bottom: $spacing-xl;
+    box-shadow: $shadow-lg;
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin: 0 0 $spacing-xl 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: $spacing-lg;
+
+      .stat-card {
+        background: rgba($white, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba($white, 0.2);
+        border-radius: $radius-xl;
+        padding: $spacing-lg;
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba($white, 0.2);
+          transform: translateY(-2px);
+        }
+
+        svg {
+          color: rgba($white, 0.9);
+          flex-shrink: 0;
+        }
+
+        div {
+          h3 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin: 0;
+            color: $white;
+          }
+
+          p {
+            font-size: 0.875rem;
+            margin: 0;
+            color: rgba($white, 0.8);
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+
+  // Dashboard Tabs
+  .dashboard-tabs {
+    display: flex;
+    background: $white;
+    border-radius: $radius-lg;
+    padding: $spacing-xs;
+    margin: 0 $spacing-xl $spacing-xl $spacing-xl;
+    box-shadow: $shadow-sm;
+    border: 1px solid $gray-200;
+
+    .tab-button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-sm;
+      padding: $spacing-md $spacing-lg;
+      border: none;
+      background: transparent;
+      color: $gray-600;
+      font-weight: 500;
+      font-size: 0.875rem;
+      border-radius: $radius-md;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: $gray-100;
+        color: $gray-700;
+      }
+
+      &.active {
+        background: $primary-color;
+        color: $white;
+        box-shadow: $shadow-sm;
+
+        svg {
+          color: $white;
+        }
+      }
+
+      svg {
+        transition: color 0.2s ease;
+      }
+    }
+  }
+
+  // Dashboard Content
+  .dashboard-content {
+    padding: 0 $spacing-xl $spacing-xl $spacing-xl;
+
+    .table-section {
+      background: $white;
+      border-radius: $radius-xl;
+      overflow: hidden;
+      box-shadow: $shadow-md;
+      border: 1px solid $gray-200;
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: $spacing-xl;
+        border-bottom: 1px solid $gray-200;
+        background: $gray-50;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: $gray-900;
+          margin: 0;
+        }
+
+        .add-car-btn {
+          display: flex;
+          align-items: center;
+          gap: $spacing-sm;
+          background: $primary-color;
+          color: $white;
+          border: none;
+          padding: $spacing-sm $spacing-lg;
+          border-radius: $radius-md;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: $primary-dark;
+            transform: translateY(-1px);
+            box-shadow: $shadow-md;
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: $gray-900;
+        margin: 0;
+        padding: $spacing-xl $spacing-xl $spacing-lg $spacing-xl;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+
+        .data-table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 0.875rem;
+
+          thead {
+            background: $gray-50;
+            
+            th {
+              padding: $spacing-md $spacing-lg;
+              text-align: left;
+              font-weight: 600;
+              color: $gray-700;
+              border-bottom: 1px solid $gray-200;
+              white-space: nowrap;
+            }
+          }
+
+          tbody {
+            tr {
+              transition: background-color 0.2s ease;
+
+              &:hover {
+                background: $gray-50;
+              }
+
+              &:not(:last-child) {
+                border-bottom: 1px solid $gray-100;
+              }
+
+              td {
+                padding: $spacing-md $spacing-lg;
+                color: $gray-700;
+                vertical-align: middle;
+
+                // Car thumbnail
+                .car-thumbnail {
+                  width: 60px;
+                  height: 40px;
+                  object-fit: cover;
+                  border-radius: $radius-sm;
+                  border: 1px solid $gray-200;
+                }
+
+                // Action buttons
+                .action-buttons {
+                  display: flex;
+                  gap: $spacing-sm;
+
+                  .action-btn {
+                    padding: $spacing-sm;
+                    border: none;
+                    border-radius: $radius-sm;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &.view-btn {
+                      background: rgba($info, 0.1);
+                      color: $info;
+
+                      &:hover {
+                        background: rgba($info, 0.2);
+                      }
+                    }
+
+                    &.edit-btn {
+                      background: rgba($warning, 0.1);
+                      color: $warning;
+
+                      &:hover {
+                        background: rgba($warning, 0.2);
+                      }
+                    }
+
+                    &.delete-btn {
+                      background: rgba($error, 0.1);
+                      color: $error;
+
+                      &:hover {
+                        background: rgba($error, 0.2);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Status Badges
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-md;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+
+    &.status-completed {
+      background: rgba($success, 0.1);
+      color: $success;
+      border: 1px solid rgba($success, 0.2);
+    }
+
+    &.status-pending {
+      background: rgba($warning, 0.1);
+      color: $warning;
+      border: 1px solid rgba($warning, 0.2);
+    }
+
+    &.status-confirmed {
+      background: rgba($info, 0.1);
+      color: $info;
+      border: 1px solid rgba($info, 0.2);
+    }
+
+    &.status-cancelled {
+      background: rgba($error, 0.1);
+      color: $error;
+      border: 1px solid rgba($error, 0.2);
+    }
+  }
+
+  // Role Badges
+  .role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-md;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+
+    &.role-admin {
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+      border: 1px solid rgba($primary-color, 0.2);
+    }
+
+    &.role-user {
+      background: rgba($gray-500, 0.1);
+      color: $gray-600;
+      border: 1px solid rgba($gray-500, 0.2);
+    }
+
+    &.role-moderator {
+      background: rgba($info, 0.1);
+      color: $info;
+      border: 1px solid rgba($info, 0.2);
+    }
+  }
+
+  // Availability Badge
+  .availability-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-md;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+
+    &.available {
+      background: rgba($success, 0.1);
+      color: $success;
+      border: 1px solid rgba($success, 0.2);
+    }
+
+    &.unavailable {
+      background: rgba($error, 0.1);
+      color: $error;
+      border: 1px solid rgba($error, 0.2);
+    }
+  }
+
+  // Payment Method
+  .payment-method {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.025em;
+    color: $primary-color;
+  }
+}
+
+// Responsive Design
+@media (max-width: $breakpoint-lg) {
+  .admin-dashboard {
+    .dashboard-header {
+      padding: $spacing-lg;
+
+      h1 {
+        font-size: 1.875rem;
+      }
+
+      .dashboard-stats {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: $spacing-md;
+
+        .stat-card {
+          padding: $spacing-md;
+
+          div h3 {
+            font-size: 1.5rem;
+          }
+        }
+      }
+    }
+
+    .dashboard-tabs {
+      margin: 0 $spacing-lg $spacing-lg $spacing-lg;
+      flex-wrap: wrap;
+
+      .tab-button {
+        font-size: 0.75rem;
+        padding: $spacing-sm $spacing-md;
+      }
+    }
+
+    .dashboard-content {
+      padding: 0 $spacing-lg $spacing-lg $spacing-lg;
+
+      .table-section {
+        .section-header {
+          flex-direction: column;
+          gap: $spacing-md;
+          align-items: stretch;
+
+          .add-car-btn {
+            justify-content: center;
+          }
+        }
+
+        .table-wrapper {
+          .data-table {
+            font-size: 0.75rem;
+
+            thead th,
+            tbody td {
+              padding: $spacing-sm;
+            }
+
+            .car-thumbnail {
+              width: 40px;
+              height: 30px;
+            }
+
+            .action-buttons {
+              flex-direction: column;
+              gap: $spacing-xs;
+
+              .action-btn {
+                padding: $spacing-xs;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .admin-dashboard {
+    .dashboard-header {
+      .dashboard-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .dashboard-tabs {
+      .tab-button {
+        flex-direction: column;
+        gap: $spacing-xs;
+        font-size: 0.625rem;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .admin-dashboard {
+    .dashboard-header {
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dashboard-tabs {
+      .tab-button {
+        padding: $spacing-sm;
+      }
+    }
+  }
+}
