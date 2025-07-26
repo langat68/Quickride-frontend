@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Users, Car, CreditCard, Calendar, Eye, Edit, Trash2, Plus } from 'lucide-react';
 import CarModal from './Carmodal'; // Adjust path as needed
-import '../Styling/AdminDashboard.scss';
+import '../Styling/Admindashboard.scss';
 
 interface User {
   id: number;

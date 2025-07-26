@@ -27,7 +27,13 @@ const Navbar = () => {
   };
 
   const handleDashboard = () => {
-    navigate("/dashboard");
+    // ✅ Redirect based on user role
+    const role = user?.role;
+    if (role === 'admin') {
+      navigate("/admin-dashboard");
+    } else {
+      navigate("/dashboard");
+    }
     setIsDropdownOpen(false);
   };
 

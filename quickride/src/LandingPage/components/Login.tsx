@@ -40,13 +40,8 @@ const Login = () => {
       dispatch(loginSuccess(data));
       setMessage('✅ Login successful!');
 
-      // ✅ Redirect based on role
-      const role = data.user?.role;
-      if (role === 'admin') {
-        navigate('/admin-dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      // ✅ Redirect all users to homepage after login
+      navigate('/');
     } catch (err: any) {
       dispatch(loginFailure());
       setMessage(err.message || 'Something went wrong');
