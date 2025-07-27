@@ -16,8 +16,12 @@ const Navbar = () => {
 
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
 
-  const handleGetStarted = () => {
-    navigate("/login");
+  const handleUserIconClick = () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      setIsDropdownOpen(!isDropdownOpen);
+    }
   };
 
   const handleLogout = () => {
@@ -65,9 +69,10 @@ const Navbar = () => {
     <header className="header">
       <div className="header__container">
         <div className="header__inner">
-          {/* Logo */}
+          {/* Logo and Brand */}
           <div className="header__logo">
             <img src={logo} alt="Quickride Logo" className="logo-img" />
+            <span className="brand-name">Quickride</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -77,13 +82,13 @@ const Navbar = () => {
             <a href="#contact">Contact</a>
           </nav>
 
-          {/* CTA Button or User Avatar */}
+          {/* User Icon */}
           <div className="header__cta">
             {isAuthenticated ? (
               <div className="user-avatar-container" ref={dropdownRef}>
                 <div
                   className="user-avatar"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={handleUserIconClick}
                   onMouseEnter={() => setIsDropdownOpen(true)}
                 >
                   <span className="user-initials">
@@ -111,9 +116,13 @@ const Navbar = () => {
                 )}
               </div>
             ) : (
-              <button className="btn btn-primary" onClick={handleGetStarted}>
-                Get Started
-              </button>
+              <div className="user-icon-container">
+                <User 
+                  size={24} 
+                  className="user-icon" 
+                  onClick={handleUserIconClick}
+                />
+              </div>
             )}
           </div>
         </div>

@@ -24,7 +24,7 @@ const Register = () => {
     setMessage(null);
 
     try {
-      const res = await fetch('http://localhost:3000/auth/signup', {
+      const res = await fetch('https://quickride-backend-6.onrender.com/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
