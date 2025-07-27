@@ -13,6 +13,10 @@
   --shadow-light: rgba(36, 61, 37, 0.1);
   --shadow-medium: rgba(36, 61, 37, 0.2);
   --shadow-dark: rgba(36, 61, 37, 0.3);
+  
+  // Navbar height variables
+  --navbar-height-mobile: 60px;
+  --navbar-height-desktop: 70px;
 }
 
 // Mixins
@@ -37,15 +41,18 @@
   }
 }
 
-// Mobile-First Hero Section
+// Mobile-First Hero Section - FULLY UPDATED
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height-mobile));
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  // Add top margin to push hero below fixed navbar
+  margin-top: var(--navbar-height-mobile);
+  box-sizing: border-box;
 
   // Background with optimized mobile performance
   &__bg {
@@ -94,6 +101,10 @@
     width: 100%;
     max-width: 100%;
     text-align: center;
+    // Ensure content doesn't get cut off at bottom
+    margin-bottom: 2rem;
+    // Add extra padding top for better spacing from navbar
+    padding-top: 1rem;
   }
 
   // Mobile typography
@@ -182,6 +193,9 @@
   margin: 1.5rem 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: slideInUp 1s ease-out 0.6s both;
+  // Ensure search card doesn't interfere with navbar
+  position: relative;
+  z-index: 10;
 }
 
 .search-grid {
@@ -295,6 +309,7 @@
     text-align: center;
     margin-bottom: 1.5rem;
     line-height: 1.3;
+    position: relative;
     
     &::after {
       content: '';
@@ -477,6 +492,9 @@
 @media (min-width: 768px) {
   .hero {
     padding: 2rem;
+    // Use desktop navbar height for tablets and up
+    min-height: calc(100vh - var(--navbar-height-desktop));
+    margin-top: var(--navbar-height-desktop);
 
     &__bg img {
       animation: ken-burns 20s infinite alternate;
@@ -513,6 +531,8 @@
     &__content {
       max-width: 800px;
       margin: 0 auto;
+      // Reduce top padding on larger screens
+      padding-top: 0.5rem;
     }
 
     &__text {
@@ -790,5 +810,80 @@
 
   .hero__text h1 {
     font-size: clamp(3rem, 5vw, 4.5rem);
+  }
+}
+
+// Extra small mobile devices (320px - 480px)
+@media (max-width: 480px) {
+  .hero {
+    padding: 0.75rem;
+    // Ensure even smaller devices have proper spacing
+    margin-top: var(--navbar-height-mobile);
+    
+    &__content {
+      padding-top: 0.5rem;
+    }
+
+    &__text {
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        padding: 0 0.5rem;
+      }
+    }
+
+    &__stats {
+      gap: 0.75rem;
+
+      > div {
+        padding: 0.5rem;
+
+        .stat-value {
+          font-size: 1.5rem;
+        }
+
+        .stat-label {
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .search-card {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .search-grid {
+    gap: 0.75rem;
+  }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .hero {
+    &__overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.9) 100%
+      );
+    }
+
+    &__text h1 {
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    }
   }
 }

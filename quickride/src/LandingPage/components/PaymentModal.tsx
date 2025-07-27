@@ -22,6 +22,33 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
 
+  // Helper function to normalize phone number to 254XXXXXXXXX format
+  const normalizePhoneNumber = (phone: string): string => {
+    // Remove any spaces, dashes, or other non-numeric characters
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    // Handle different formats
+    if (cleanPhone.startsWith('254')) {
+      // Already in correct format (254XXXXXXXXX)
+      return cleanPhone;
+    } else if (cleanPhone.startsWith('0')) {
+      // Remove leading 0 and add 254 (0XXXXXXXXX -> 254XXXXXXXXX)
+      return '254' + cleanPhone.substring(1);
+    } else if (cleanPhone.length === 9) {
+      // Assume it's missing country code and leading 0 (XXXXXXXXX -> 254XXXXXXXXX)
+      return '254' + cleanPhone;
+    }
+    
+    return cleanPhone;
+  };
+
+  // Helper function to validate phone number
+  const validatePhoneNumber = (phone: string): boolean => {
+    const normalized = normalizePhoneNumber(phone);
+    // Kenyan phone numbers should be 254 followed by 9 digits
+    return /^254[0-9]{9}$/.test(normalized);
+  };
+
   const handlePayment = async () => {
     if (!bookingData || !user) {
       setError('Booking data not available');
@@ -34,11 +61,13 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
       return;
     }
 
-    const phoneRegex = /^254\d{9}$/;
-    if (!phoneRegex.test(phoneNumber)) {
-      setError('Please enter a valid phone number (format: 254XXXXXXXXX)');
+    if (!validatePhoneNumber(phoneNumber)) {
+      setError('Please enter a valid Kenyan phone number (e.g., 0797638741, 254797638741)');
       return;
     }
+
+    // Normalize phone number for API call
+    const normalizedPhone = normalizePhoneNumber(phoneNumber);
 
     setLoading(true);
     setProcessing(true);
@@ -70,15 +99,15 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
       const booking = await bookingResponse.json();
       const bookingId = booking.id || booking.bookingId;
 
-      // Step 2: Initiate payment
+      // Step 2: Initiate payment (use normalized phone number)
       const paymentData = {
         bookingId: bookingId,
         amount: bookingData.totalAmount,
         paymentMethod: 'mpesa',
-        phoneNumber: phoneNumber
+        phoneNumber: normalizedPhone
       };
 
-      const paymentResponse = await fetch(`http://localhost:3000/payments/initiate/${user.id}`, {
+      const paymentResponse = await fetch(`https://quickride-backend-6.onrender.com/payments/initiate/${user.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +118,7 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
 
       if (!paymentResponse.ok) {
         // If payment initiation fails, delete the booking
-        await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+        await fetch(`https://quickride-backend-6.onrender.com/bookings/${bookingId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -106,7 +135,7 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
         onClose();
       } else {
         // Payment failed, delete the booking
-        await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+        await fetch(`https://quickride-backend-6.onrender.com/bookings/${bookingId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -189,10 +218,10 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
                     id="phoneNumber"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="254XXXXXXXXX"
+                    placeholder="0712345678"
                     required
                   />
-                  <small>Enter your M-Pesa phone number (format: 254XXXXXXXXX)</small>
+                  <small>Enter your M-Pesa phone number </small>
                 </div>
 
                 <div className="payment-option">
@@ -203,9 +232,9 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
                   </div>
                 </div>
                 
-                {phoneNumber && (
+                {phoneNumber && validatePhoneNumber(phoneNumber) && (
                   <div className="payment-note">
-                    <p>You will receive an M-Pesa prompt on <strong>{phoneNumber}</strong></p>
+                    <p>You will receive an M-Pesa prompt on <strong>{normalizePhoneNumber(phoneNumber)}</strong></p>
                     <p>Complete the transaction to confirm your booking</p>
                   </div>
                 )}
