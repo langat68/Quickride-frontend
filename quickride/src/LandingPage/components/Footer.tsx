@@ -53,7 +53,7 @@ const Footer = () => {
             <h3>Contact Us</h3>
             <div className="contact-item">
               <Phone size={16} />
-              <span>+1 (555) 123-4567</span>
+              <span> (+254) 123-4567</span>
             </div>
             <div className="contact-item">
               <Mail size={16} />
@@ -62,9 +62,9 @@ const Footer = () => {
             <div className="contact-item address">
               <MapPin size={16} />
               <span>
-                123 Main Street<br />
-                Downtown, City 12345
-              </span>
+  Yaya Centre, Argwings Kodhek Road<br />
+  Kilimani, Nairobi 00100
+</span>
             </div>
           </div>
         </div>

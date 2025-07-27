@@ -1,12 +1,49 @@
-// Footer Styles
+// Import Sass color module for modern color functions
+@use 'sass:color';
+
+// Color palette based on your mood #2C372D
+$primary-dark: #2C372D;
+$primary-darker: #1F2621;
+$primary-lighter: #3A4A3F;
+$accent-gold: #D4AF37;
+$accent-green: #4A6741;
+$text-primary: #F8F9FA;
+$text-secondary: #B8C5B8;
+$text-muted: #8A9A8A;
+$border-color: #3A4A3F;
+$hover-bg: rgba(212, 175, 55, 0.1);
+
+// Mixins
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin hover-lift {
+  @include transition(transform, 0.2s, ease-out);
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@mixin glass-effect {
+  background: rgba(60, 74, 63, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .footer {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f1419 100%);
-  color: #e2e8f0;
-  padding: 4rem 0 0;
+  background: linear-gradient(135deg, 
+    $primary-dark 0%, 
+    $primary-darker 50%, 
+    color.adjust($primary-dark, $lightness: -8%) 100%
+  );
+  color: $text-primary;
+  padding: 4rem 0 2rem;
   position: relative;
   overflow: hidden;
 
-  // Subtle background pattern
+  // Subtle pattern overlay
   &::before {
     content: '';
     position: absolute;
@@ -15,8 +52,8 @@
     right: 0;
     bottom: 0;
     background-image: 
-      radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(74, 103, 65, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
@@ -30,18 +67,13 @@
 
   .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
     gap: 3rem;
     margin-bottom: 3rem;
 
-    @media (max-width: 1024px) {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2.5rem;
-    }
-
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 2.5rem;
     }
   }
 
@@ -54,35 +86,31 @@
       margin-bottom: 1.5rem;
 
       .logo-icon {
-        background: linear-gradient(135deg, #434C43);
+        background: linear-gradient(135deg, $accent-gold, color.adjust($accent-gold, $lightness: 10%));
         padding: 0.75rem;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        @include hover-lift;
 
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+        svg {
+          color: $primary-dark;
         }
       }
 
       .logo-text {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: $text-primary;
+        letter-spacing: -0.02em;
       }
     }
 
     .footer-description {
-      color: #94a3b8;
-      line-height: 1.7;
+      color: $text-secondary;
+      line-height: 1.6;
       margin-bottom: 2rem;
       font-size: 0.95rem;
     }
@@ -92,33 +120,37 @@
       gap: 1rem;
 
       .social-icon {
-        background: rgba(255, 255, 255, 0.1);
+        background: $primary-lighter;
         padding: 0.75rem;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #94a3b8;
+        border-radius: 10px;
         cursor: pointer;
-        transition: all 0.3s ease;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        @include transition();
+        @include hover-lift;
+        border: 1px solid transparent;
 
         &:hover {
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-          color: white;
-          transform: translateY(-3px);
-          box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+          background: $hover-bg;
+          border-color: rgba($accent-gold, 0.3);
+          box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+
+          svg {
+            color: $accent-gold;
+          }
+        }
+
+        svg {
+          color: $text-secondary;
+          @include transition(color);
         }
       }
     }
   }
 
   // Links Sections
-  .footer-links, .footer-contact {
+  .footer-links {
     h3 {
-      color: #f1f5f9;
-      font-size: 1.125rem;
+      color: $text-primary;
+      font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
       position: relative;
@@ -131,7 +163,7 @@
         left: 0;
         width: 30px;
         height: 2px;
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        background: linear-gradient(90deg, $accent-gold, transparent);
         border-radius: 1px;
       }
     }
@@ -145,30 +177,25 @@
         margin-bottom: 0.75rem;
 
         a {
-          color: #94a3b8;
+          color: $text-secondary;
           text-decoration: none;
           font-size: 0.9rem;
-          transition: all 0.3s ease;
+          @include transition(color);
           position: relative;
           padding-left: 1rem;
 
           &::before {
-            content: '';
+            content: '→';
             position: absolute;
             left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 4px;
-            background: #3b82f6;
-            border-radius: 50%;
+            color: $accent-gold;
             opacity: 0;
-            transition: all 0.3s ease;
+            @include transition(opacity);
           }
 
           &:hover {
-            color: #3b82f6;
-            padding-left: 1.25rem;
+            color: $text-primary;
+            padding-left: 1.2rem;
 
             &::before {
               opacity: 1;
@@ -181,81 +208,106 @@
 
   // Contact Section
   .footer-contact {
+    h3 {
+      color: $text-primary;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(90deg, $accent-gold, transparent);
+        border-radius: 1px;
+      }
+    }
+
     .contact-item {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
       margin-bottom: 1rem;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+      padding: 0.75rem;
+      border-radius: 8px;
+      @include transition();
+
+      &:hover {
+        background: rgba($primary-lighter, 0.3);
+      }
 
       svg {
-        color: #3b82f6;
-        margin-top: 0.125rem;
+        color: $accent-gold;
+        margin-top: 0.1rem;
         flex-shrink: 0;
       }
 
-      &:hover {
-        color: #e2e8f0;
-        transform: translateX(4px);
+      span {
+        color: $text-secondary;
+        font-size: 0.9rem;
+        line-height: 1.4;
       }
 
       &.address span {
-        line-height: 1.6;
+        line-height: 1.5;
       }
     }
   }
 
   // Footer Bottom
   .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2rem 0;
+    border-top: 1px solid $border-color;
+    padding-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
       flex-direction: column;
       text-align: center;
     }
 
     p {
-      color: #64748b;
-      font-size: 0.875rem;
+      color: $text-muted;
+      font-size: 0.85rem;
       margin: 0;
     }
 
     .footer-bottom-links {
       display: flex;
-      gap: 2rem;
+      gap: 1.5rem;
 
-      @media (max-width: 640px) {
-        gap: 1.5rem;
+      @media (max-width: 768px) {
+        gap: 1rem;
       }
 
       a {
-        color: #64748b;
+        color: $text-muted;
         text-decoration: none;
-        font-size: 0.875rem;
-        transition: all 0.3s ease;
+        font-size: 0.85rem;
+        @include transition(color);
         position: relative;
 
         &::after {
           content: '';
           position: absolute;
-          bottom: -4px;
+          bottom: -2px;
           left: 0;
           width: 0;
           height: 1px;
-          background: #3b82f6;
-          transition: width 0.3s ease;
+          background: $accent-gold;
+          @include transition(width);
         }
 
         &:hover {
-          color: #3b82f6;
+          color: $text-primary;
 
           &::after {
             width: 100%;
@@ -266,39 +318,69 @@
   }
 
   // Responsive Design
+  @media (max-width: 1024px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
   @media (max-width: 768px) {
-    padding: 3rem 0 0;
+    padding: 3rem 0 1.5rem;
 
     .footer-container {
       padding: 0 1.5rem;
+    }
+
+    .footer-brand {
+      text-align: center;
+
+      .footer-socials {
+        justify-content: center;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-container {
+      padding: 0 1rem;
     }
 
     .footer-grid {
       gap: 2rem;
     }
 
-    .footer-brand {
-      .footer-logo {
-        .logo-text {
-          font-size: 1.5rem;
-        }
+    .footer-brand .footer-logo {
+      .logo-text {
+        font-size: 1.3rem;
       }
     }
   }
 }
 
-// Animation for smooth entrance
-.footer {
-  animation: fadeInUp 0.8s ease-out;
+// Dark mode enhancements
+@media (prefers-color-scheme: dark) {
+  .footer {
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+  }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+  .footer * {
+    transition: none !important;
+    animation: none !important;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+}
+
+// Print styles
+@media print {
+  .footer {
+    background: white !important;
+    color: black !important;
+    
+    * {
+      color: black !important;
+    }
   }
 }
