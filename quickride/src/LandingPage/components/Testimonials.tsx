@@ -4,26 +4,26 @@ import { Star } from "lucide-react";
 const testimonials = [
   {
     id: 1,
-    name: "John Ngughi",
-    role: "Business Executive",
+    name: "John Ngugi",
+    role: "Business Executive, Nairobi",
     rating: 5,
-    comment: "Exceptional service! The BMW was pristine and the booking process was seamless. QuickRide made my business trip stress-free.",
+    comment: "I hired the BMW 5 Series for a client meeting and it was the perfect choice;sleek, comfortable, and professional. QuickRide’s service was prompt and hassle-free. I’ll definitely be booking again for future business trips.",
     avatar: "https://images.unsplash.com/photo-1679480911476-3ee732578062?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTAxfHxibGFjayUyMG1hbiUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
   },
   {
     id: 2,
     name: "Cosmas Ngige",
-    role: "Tech Entrepreneur",
+    role: "Tech Entrepreneur, Westlands",
     rating: 5,
-    comment: "I've used many rental services, but QuickRide stands out. The Tesla Model S was incredible, and the contactless pickup was perfect.",
+    comment: "The Audi Q5 was the ideal match for my weekend out of town;smooth ride, top-tier tech, and great fuel efficiency. QuickRide has really nailed the balance between luxury and practicality. Highly recommend it for any executive looking to unwind in style.",
     avatar: "https://images.unsplash.com/photo-1678282955936-426bbe7a9693?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTZ8fGJsYWNrJTIwbWFuJTIwcHJvZmlsZXxlbnwwfHwwfHx8MA%3D%3D"
   },
   {
     id: 3,
     name: "Emily Mukhwana",
-    role: "Marketing Director",
+    role: "Marketing Director, Mombasa",
     rating: 5,
-    comment: "Amazing experience from start to finish. The Range Rover was perfect for our family vacation. Highly recommend QuickRide!",
+    comment: "I chose the Mazda CX-5 for a family trip to Diani and it exceeded expectations. Spacious, comfortable, and reliable on both highway and off-road. QuickRide made the entire experience seamless from booking to drop-off.",
     avatar: "https://images.unsplash.com/photo-1676327478489-ae4f973d0bbe?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDIyfHx8ZW58MHx8fHx8"
   }
 ];

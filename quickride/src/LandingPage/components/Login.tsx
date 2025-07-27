@@ -22,7 +22,7 @@ const Login = () => {
     setMessage(null);
 
     try {
-      const res = await fetch('http://localhost:3000/auth/login', {
+      const res = await fetch('https://quickride-backend-6.onrender.com/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -46,7 +46,7 @@ const PaymentModal = ({ bookingData, isOpen, onClose, onPaymentSuccess, onBackTo
 
     try {
       // Step 1: Create booking first
-      const bookingResponse = await fetch('http://localhost:3000/bookings', {
+      const bookingResponse = await fetch('https://quickride-backend-6.onrender.com/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

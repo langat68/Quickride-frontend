@@ -36,7 +36,7 @@ const Register = () => {
       if (!res.ok) throw new Error(data.error || 'Signup failed');
 
       // Auto-login after successful registration
-      const loginRes = await fetch('http://localhost:3000/auth/login', {
+      const loginRes = await fetch('https://quickride-backend-6.onrender.com/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

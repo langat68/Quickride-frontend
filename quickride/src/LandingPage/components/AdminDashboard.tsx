@@ -81,10 +81,10 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       const [usersRes, paymentsRes, bookingsRes, carsRes] = await Promise.all([
-        fetch('http://localhost:3000/users', { credentials: 'include' }),
-        fetch('http://localhost:3000/payments', { credentials: 'include' }),
-        fetch('http://localhost:3000/bookings', { credentials: 'include' }),
-        fetch('http://localhost:3000/cars', { credentials: 'include' })
+        fetch('https://quickride-backend-6.onrender.com/users', { credentials: 'include' }),
+        fetch('https://quickride-backend-6.onrender.com/payments', { credentials: 'include' }),
+        fetch('https://quickride-backend-6.onrender.com/bookings', { credentials: 'include' }),
+        fetch('https://quickride-backend-6.onrender.com/cars', { credentials: 'include' })
       ]);
 
       if (!usersRes.ok || !paymentsRes.ok || !bookingsRes.ok || !carsRes.ok) {
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
   const handleCarSave = async (carData: Partial<Car>) => {
     try {
       if (modalMode === 'create') {
-        const response = await fetch('http://localhost:3000/cars', {
+        const response = await fetch('https://quickride-backend-6.onrender.com/cars', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ const AdminDashboard = () => {
         const newCar = await response.json();
         setCars(prev => [...prev, newCar.data || newCar]);
       } else if (modalMode === 'edit' && selectedCar) {
-        const response = await fetch(`http://localhost:3000/cars/${selectedCar.id}`, {
+        const response = await fetch(`https://quickride-backend-6.onrender.com/cars/${selectedCar.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
 
   const handleCarDelete = async (carId: number) => {
     try {
-      const response = await fetch(`http://localhost:3000/cars/${carId}`, {
+      const response = await fetch(`https://quickride-backend-6.onrender.com/cars/${carId}`, {
         method: 'DELETE',
         credentials: 'include',
       });

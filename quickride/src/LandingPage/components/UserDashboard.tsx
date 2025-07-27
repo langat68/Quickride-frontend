@@ -69,7 +69,7 @@ const Dashboard = () => {
         setError(null);
 
         // Fetch bookings
-        const bookingsResponse = await fetch('http://localhost:3000/bookings');
+        const bookingsResponse = await fetch('https://quickride-backend-6.onrender.com/bookings');
 
         if (!bookingsResponse.ok) {
           throw new Error('Failed to fetch bookings');
@@ -78,7 +78,7 @@ const Dashboard = () => {
         const bookingsData: ApiBooking[] = await bookingsResponse.json();
 
         // Fetch payments
-        const paymentsResponse = await fetch('http://localhost:3000/payments');
+        const paymentsResponse = await fetch('https://quickride-backend-6.onrender.com/payments');
 
         if (!paymentsResponse.ok) {
           throw new Error('Failed to fetch payments');
@@ -153,7 +153,7 @@ const Dashboard = () => {
     if (!isConfirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/bookings/${bookingId}`, {
+      const response = await fetch(`https://quickride-backend-6.onrender.com/bookings/${bookingId}`, {
         method: 'DELETE',
       });
 

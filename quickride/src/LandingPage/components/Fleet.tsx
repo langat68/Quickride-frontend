@@ -30,7 +30,7 @@ const Fleet = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await fetch('http://localhost:3000/cars');
+        const res = await fetch('https://quickride-backend-6.onrender.com/cars');
         if (!res.ok) throw new Error('Failed to fetch cars');
         const data = await res.json();
         setCars(data);
