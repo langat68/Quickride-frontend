@@ -1,8 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import { loginStart, loginSuccess, loginFailure } from '../../redux';
 import '../Styling/auth-form.scss';
+
+// Google Sign-In types
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -11,6 +18,46 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.auth);
+
+  // Google Client ID
+  const GOOGLE_CLIENT_ID = '796180283133-2kg93nfumm80p6nvuvsosch6eqrh6gnq.apps.googleusercontent.com';
+
+  // Load Google Sign-In script
+  useEffect(() => {
+    const loadGoogleScript = () => {
+      if (window.google) {
+        initializeGoogleSignIn();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = initializeGoogleSignIn;
+      document.head.appendChild(script);
+    };
+
+    const initializeGoogleSignIn = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleResponse,
+        });
+
+        window.google.accounts.id.renderButton(
+          document.getElementById('google-signin-button'),
+          {
+            theme: 'outline',
+            size: 'large',
+            text: 'signin_with',
+          }
+        );
+      }
+    };
+
+    loadGoogleScript();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,12 +86,41 @@ const Login = () => {
 
       dispatch(loginSuccess(data));
       setMessage('✅ Login successful!');
-
-      // ✅ Redirect all users to homepage after login
       navigate('/');
     } catch (err: any) {
       dispatch(loginFailure());
       setMessage(err.message || 'Something went wrong');
+    }
+  };
+
+  const handleGoogleResponse = async (response: any) => {
+    dispatch(loginStart());
+    setMessage(null);
+
+    try {
+      const res = await fetch('https://quickride-backend-6.onrender.com/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          googleToken: response.credential,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Google login failed');
+      }
+
+      dispatch(loginSuccess(data));
+      setMessage('✅ Google login successful!');
+      navigate('/');
+    } catch (err: any) {
+      dispatch(loginFailure());
+      setMessage(err.message || 'Google login failed');
     }
   };
 
@@ -75,6 +151,14 @@ const Login = () => {
       </form>
 
       {message && <p className="login-message">{message}</p>}
+
+      {/* OR Divider */}
+      <div className="auth-divider">
+        <span>OR</span>
+      </div>
+
+      {/* Google Sign-In Button */}
+      <div id="google-signin-button" className="google-signin-container"></div>
 
       <p className="register-link">
         Don't have an account?{' '}

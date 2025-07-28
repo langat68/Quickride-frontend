@@ -42,7 +42,7 @@ const BookingModal = ({ car, isOpen, onClose, onProceedToPayment }: BookingModal
   const locations = [
     
     'JKIA Airport',
-    'Nakuru',
+    'Naironi',
     'Mombasa',
     'Kisumu'
   ];

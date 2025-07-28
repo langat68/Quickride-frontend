@@ -106,6 +106,54 @@ $text-dark: #2e3b2e;
     }
   }
 
+  // ✅ NEW: OR Divider Styles
+  .auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0 1rem 0;
+    text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: $grass-green-light;
+    }
+
+    span {
+      padding: 0 1rem;
+      color: $grass-green-dark;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: $background;
+    }
+  }
+
+  // ✅ NEW: Google Sign-In Container
+  .google-signin-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    // Override Google's button styles to match our theme better
+    div[data-testid="gsi-button"] {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    // Style the Google button container
+    > div {
+      width: 100%;
+      
+      // Make the Google button fill the container width
+      iframe {
+        width: 100% !important;
+        min-width: 100% !important;
+      }
+    }
+  }
+
   .register-link {
     margin-top: 1rem;
     text-align: center;
